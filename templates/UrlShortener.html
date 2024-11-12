@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Url Shortnerer 😈</title>
+  <style>
+    /* Стилове за основното тяло */
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+
+    /* Стилове за контейнера */
+    .container {
+      position: fixed; /* Фиксира контейнера */
+      top: 50%; /* Центрира вертикално */
+      left: 50%; /* Центрира хоризонтално */
+      transform: translate(-50%, -50%); /* Действително центрира */
+      text-align: center;
+      width: 90%;
+      max-width: 100%;
+      height: 90%;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.753);
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      z-index: 10; /* Поставя контейнера пред видео фона */
+    }
+
+    /* Група за въвеждане на URL */
+    .url-input-group {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .url {
+      width: 80%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    /* Стилове за бутона за преобразуване */
+    .URLbutton {
+      padding: 10px;
+      font-size: 14px;
+      border: none;
+      border-radius: 0px 5px 5px 0px;
+      background-color: #21f360;
+      color: white;
+      cursor: pointer;
+      margin-left: -2%;
+    }
+    .URLbutton:hover {
+      background-color: #4e45a0;
+    }
+
+    /* Стилове за плъзгача */
+    .slider {
+      width: 100%;
+      height: 12px;
+      background: linear-gradient(to right, #4CAF50, #45a049);
+      border-radius: 8px;
+      outline: none;
+    }
+
+    /* Плъзгащ елемент */
+    .slider::-webkit-slider-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: #4CAF50;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* Контейнер за бутона за копиране */
+    .button-coppy {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      margin-top: 20px;
+    }
+
+    /* Контейнер за плъзгача */
+    .slider-container {
+      background-color: rgba(67, 255, 139, 0.384);
+      border-radius: 25px;
+      padding: 15px;
+      margin-top: 20px;
+    }
+
+    .value {
+      font-size: 18px;
+      margin-top: 10px;
+      color: #333;
+    }
+
+    /* Изходен текст, който показва съкратения URL */
+    .output {
+      font-size: 18px;
+      color: white;
+      background-color: #21f333;
+      border-radius: 5px 0 0 5px;
+      padding: 10px;
+      text-align: left;
+      width: 97%;
+      display: flex;
+      align-items: center;
+      height: 50px;
+    }
+
+    /* Бутон за копиране */
+    .copy-button {
+      padding: 8px 15px;
+      font-size: 18px;
+      border: none;
+      border-radius: 0 5px 5px 0;
+      background-color: #041beb;
+      color: white;
+      cursor: pointer;
+      height: 70px;
+    }
+
+    .copy-button:hover {
+      background-color: #45a049;
+    }
+
+    /* Поле за персонализиран URL */
+    .custom-url-input {
+      width: 80%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-top: 10px;
+      transition: opacity 1s ease;
+    }
+
+    /* Стилове за фоновото видео */
+    .video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      z-index: -1; /* Поставя видеото зад съдържанието */
+    }
+
+    #bg-video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100vw;
+      height: 100vh;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    /* Бутон за история */
+    .history-button {
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+    }
+
+    .history-button:hover {
+      background-color: #2196F3;
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="video-background">
+    <!-- Фонова видео iframe с настройки за автоматично пускане и повторение -->
+    <iframe id="bg-video" 
+      src="https://www.youtube.com/embed/0KwF8rKhKzQ?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&modestbranding=1&playlist=0KwF8rKhKzQ"
+      frameborder="0" 
+      allow="autoplay; encrypted-media" 
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <body>
+    <div class="container">
+      <div class="small-container">
+        <h2>Enter the link and choose size</h2>
+        <form action="/generate_url" method="POST" id="urlForm">
+          <!-- Поле за въвеждане на URL и бутон за изпращане -->
+          <div class="url-input-group">
+            <input class="url" name="url" placeholder="Enter URL" required>
+            <button class="URLbutton" type="submit">Transform</button>
+          </div>
+          <div class="value" id="sliderValue">Select length:</div>
+          <div class="slider-container" id="sliderContainer">
+            <input type="range" min="5" max="10" step="1" class="slider" id="slider" name="slider_value" value="5">
+          </div>
+
+          <!-- Персонализирано поле за URL -->
+          <input type="text" name="custom_short_url" class="custom-url-input" placeholder="Enter custom URL...">
+          <div id="error-message" class="error-message"></div>
+        </form>
+        <!-- Бутон за история -->
+        <button onclick="window.location.href='/history'" class="history-button">History</button>
+      </div>
+
+      <div class="button-coppy">
+        <div class="output" id="outputText">
+          {% if shortened_url %}
+            <p><a href="{{ shortened_url }}" target="_blank">{{ shortened_url }}</a></p>
+          {% endif %}
+        </div>
+        <!-- Бутон за копиране на съкратения URL -->
+        <button class="copy-button" onclick="copyOutputText()">Copy</button>
+      </div>
+    </div>
+
+    <script>
+      const slider = document.getElementById('slider');
+      const sliderContainer = document.getElementById('sliderContainer');
+      const sliderValue = document.getElementById('sliderValue');
+      const customUrlInput = document.querySelector('.custom-url-input');
+      const errorMessage = document.getElementById('error-message');
+
+      // Актуализира стойността на плъзгача при промяна
+      slider.addEventListener('input', () => {
+        sliderValue.textContent = `Select length: ${slider.value}`;
+      });
+
+      // Функция за превключване между плъзгач и персонализирано URL поле
+      function toggleCustomUrlInput() {
+        if (customUrlInput.style.display === 'none') {
+          customUrlInput.style.display = 'block';
+          sliderContainer.style.display = 'none'; // Скрива плъзгача
+          sliderValue.style.display = 'none'; // Скрива етикета на плъзгача
+        } else {
+          customUrlInput.style.display = 'none';
+          sliderContainer.style.display = 'block';
+          slider
+        }
+      }
+    </script>
+  </body>
+  
+</html>

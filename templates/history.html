@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL History</title>
+  <style>
+    /* Стилове за основното тяло */
+    body { 
+      font-family: Arial, sans-serif; 
+      padding: 20px; /* Добавяне на отстояние около съдържанието */
+    }
+    /* Стилове за таблицата */
+    table { 
+      width: 100%; /* Ширина на таблицата 100% */
+      border-collapse: collapse; /* Използване на еднообразни граници */
+    }
+    /* Стилове за клетките в таблицата */
+    th, td { 
+      border: 1px solid #ddd; /* Лека сива линия за границите */
+      padding: 8px; /* Отстояние в клетките */
+    }
+    /* Стилове за заглавието на колоните */
+    th { 
+      background-color: #4CAF50; /* Зелен фон */
+      color: white; /* Бял текст */
+    }
+  </style>
+</head>
+<body>
+  <h2>Shortened URLs History</h2> <!-- Заглавие на страницата -->
+
+  <table>
+    <tr>
+      <th>Original URL</th> <!-- Колона за оригиналния URL -->
+      <th>Shortened URL</th> <!-- Колона за съкратените URL -->
+      <!-- Проверка дали няма URL в базата данни -->
+      {% if not urls %} 
+         <p>No URLs found in the database.</p> <!-- Съобщение, ако няма URL в базата -->
+      {% endif %}
+    </tr>
+    <!-- Преход през всички URL в базата данни -->
+    {% for url in urls %}
+     <tr>
+        <!-- Показване на оригинален URL със линк -->
+        <td><a href="{{ url.original_url }}" target="_blank">{{ url.original_url }}</a></td>
+        <!-- Показване на съкратен URL със линк -->
+        <td><a href="{{ url.shortened_url }}" target="_blank">{{ url.shortened_url }}</a></td>
+     </tr>
+    {% endfor %}
+  </table>
+
+  <!-- Бутон за връщане към основната страница за съкращаване на URL -->
+  <button onclick="window.location.href='/'">Back to Shortener</button>
+</body>
+</html>
